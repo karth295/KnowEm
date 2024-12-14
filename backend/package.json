@@ -2,14 +2,16 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint .",
-    "build": "tsc --project tsconfig.json",
+    "build": "npx prisma generate --schema src/schema.prisma && tsc --project tsconfig.json",
     "clean": "rm -rf node_modules .vercel dist"
   },
   "dependencies": {
     "@apollo/server": "^4.11.2",
     "@as-integrations/next": "^3.2.0",
+    "@prisma/client": "^6.0.1",
     "@vercel/node": "^3.2.29",
-    "graphql": "^16.9.0"
+    "graphql": "^16.9.0",
+    "prisma": "^6.0.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.16.0",
