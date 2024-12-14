@@ -1,0 +1,88 @@
+# Keep in sync with schema.prisma. Note that not every field in the database
+# needs to be in here. Only fields we intend to expose to the client.
+
+type User {
+  id: ID!
+  username: String!
+  createdAt: String!
+  updatedAt: String!
+  userGames: [UserGame!]!
+  responses: [Response!]!
+  responseTargets: [Response!]!
+}
+
+type Game {
+  id: ID!
+  status: GameStatus!
+  createdAt: String!
+  updatedAt: String!
+  gameQuestions: [GameQuestion!]!
+  userGames: [UserGame!]!
+}
+
+type UserGame {
+  id: ID!
+  userId: ID!
+  gameId: ID!
+  createdAt: String!
+  user: User!
+  game: Game!
+}
+
+type GameQuestion {
+  id: ID!
+  gameId: ID!
+  questionId: ID!
+  createdAt: String!
+  game: Game!
+  question: Question!
+  responses: [Response!]!
+}
+
+type Question {
+  id: ID!
+  content: String!
+  createdAt: String!
+  updatedAt: String!
+  gameQuestions: [GameQuestion!]!
+}
+
+type Response {
+  id: ID!
+  gameQuestionId: ID!
+  userId: ID!
+  targetUserId: ID!
+  answer: String!
+  classification: ResponseClassification!
+  createdAt: String!
+  gameQuestion: GameQuestion!
+  user: User!
+  targetUser: User!
+}
+
+enum GameStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  ENDED
+}
+
+enum ResponseClassification {
+  UNSCORED
+  CORRECT
+  WRONG
+}
+
+type Query {
+  users: [User!]!
+  games: [Game!]!
+  game(id: ID!): Game
+  user(id: ID!): User
+  userGames: [UserGame!]!
+}
+
+type Mutation {
+  createUser(username: String!): User!
+  createGame(status: GameStatus!): Game!
+  createUserGame(userId: ID!, gameId: ID!): UserGame!
+  createResponse(gameQuestionId: ID!, userId: ID!, targetUserId: ID!, answer: String!): Response!
+}
